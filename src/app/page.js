@@ -69,6 +69,14 @@ export default function Dashboard() {
     });
     setShowForm(true);
   }
+  // Habis / Tersedia
+  async function handleToggle(id, currentStatus) {
+    await supabase
+      .from("menu")
+      .update({ tersedia: !currentStatus })
+      .eq("id", id);
+    loadMenu();
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -234,6 +242,16 @@ export default function Dashboard() {
                           className="text-blue-500 hover:text-blue-700 text-sm font-medium"
                         >
                           Edit
+                        </button>
+                        <button
+                          onClick={() => handleToggle(item.id, item.tersedia)}
+                          className={`text-sm font-medium ${
+                            item.tersedia
+                              ? "text-orange-500 hover:text-orange-700"
+                              : "text-green-500 hover:text-green-700"
+                          }`}
+                        >
+                          {item.tersedia ? "Habis" : "Tersedia"}
                         </button>
                         <button
                           onClick={() => handleDelete(item.id)}
